@@ -1,8 +1,9 @@
-import { useNavigate } from "react-router-dom";
+"use client"
+
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const LandingPage = () => {
-  const navigate = useNavigate();
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-slate-950 text-white">
@@ -46,12 +47,13 @@ const LandingPage = () => {
           </p>
 
           <div className="mt-8 flex gap-4">
+            <Link href="/dashboard">
             <button
-              onClick={() => navigate("/dashboard")}
               className="rounded-xl bg-blue-600 px-8 py-4 font-semibold shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:bg-blue-500"
             >
               Let's Begin →
             </button>
+            </Link>
 
             <button className="rounded-xl border border-slate-700 px-8 py-4 transition hover:bg-slate-900">
               Learn More

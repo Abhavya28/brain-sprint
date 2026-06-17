@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from "react";
 import { getAllQuiz, getQuiz } from "../services/quizService";
 
