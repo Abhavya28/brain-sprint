@@ -1,3 +1,7 @@
+"use client";
+
+import { useUser } from "@clerk/nextjs";
+import { h1 } from "framer-motion/client";
 import Link from "next/link";
 
 const Dashboard = () => {
@@ -31,15 +35,16 @@ const Dashboard = () => {
     },
   ];
 
+  const { user } = useUser();
+  console.log(user);
+
   return (
     <section className="min-h-screen bg-slate-950 text-white p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h1 className="text-4xl font-bold">
-              Welcome Back 👋
-            </h1>
+            <h1 className="text-4xl font-bold">Welcome Back 👋</h1>
 
             <p className="text-slate-400 mt-2">
               Ready for your next challenge?
@@ -78,9 +83,7 @@ const Dashboard = () => {
         <div className="grid lg:grid-cols-3 gap-6 mt-10">
           {/* Recent Quizzes */}
           <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-6">
-            <h2 className="text-2xl font-semibold mb-5">
-              Recent Quizzes
-            </h2>
+            <h2 className="text-2xl font-semibold mb-5">Recent Quizzes</h2>
 
             <div className="space-y-4">
               {recentQuizzes.map((quiz) => (
@@ -101,24 +104,25 @@ const Dashboard = () => {
           {/* Profile */}
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
             <div className="flex flex-col items-center">
-              <img
-                src=""
-                alt="profile"
-                className="w-24 h-24 rounded-full border-4 border-slate-700"
-              />
-
+              <div className="w-24 h-24 rounded-full">
+                {user?.hasImage ? (
+                  <img
+                    src={user?.imageUrl}
+                    alt="profile"
+                    className="w-24 h-24 rounded-full border-4 border-slate-700"
+                  />
+                ) : (
+                  <p>No Profile Img</p>
+                )}
+              </div>
               <h3 className="text-xl font-semibold mt-4">
-                Abhavya
+                {user?.fullName || user?.firstName}
               </h3>
-
-              <p className="text-slate-400">
-                @abhavya28
-              </p>
-
+              <p className="text-slate-400"></p>
               <Link href="/profile">
-              <button className="mt-5 border border-slate-700 px-5 py-2 rounded-lg hover:bg-slate-800 transition">
-                Edit Profile
-              </button>
+                <button className="mt-5 border border-slate-700 px-5 py-2 rounded-lg hover:bg-slate-800 transition">
+                  Edit Profile
+                </button>
               </Link>
             </div>
           </div>
@@ -126,23 +130,14 @@ const Dashboard = () => {
 
         {/* High Scores */}
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 mt-6">
-          <h2 className="text-2xl font-semibold mb-5">
-            High Scores
-          </h2>
+          <h2 className="text-2xl font-semibold mb-5">High Scores</h2>
 
           <div className="grid md:grid-cols-3 gap-4">
             {highScores.map((item) => (
-              <div
-                key={item.category}
-                className="bg-slate-800 rounded-xl p-4"
-              >
-                <h3 className="font-semibold">
-                  {item.category}
-                </h3>
+              <div key={item.category} className="bg-slate-800 rounded-xl p-4">
+                <h3 className="font-semibold">{item.category}</h3>
 
-                <p className="text-blue-400 mt-2">
-                  {item.score}
-                </p>
+                <p className="text-blue-400 mt-2">{item.score}</p>
               </div>
             ))}
           </div>
