@@ -3,6 +3,8 @@
 import { useUser } from "@clerk/nextjs";
 import { h1 } from "framer-motion/client";
 import Link from "next/link";
+import { useState } from "react";
+import StartQuizModal from "./modals/startQuizModal";
 
 const Dashboard = () => {
   const recentQuizzes = [
@@ -38,6 +40,12 @@ const Dashboard = () => {
   const { user } = useUser();
   console.log(user);
 
+  const [isStartQuizModalOpen, setIsStartQuizModalOpen] = useState(false);
+
+  const handleStartQuiz = () =>{
+    setIsStartQuizModalOpen(true);
+  }
+
   return (
     <section className="min-h-screen bg-slate-950 text-white p-6">
       <div className="max-w-7xl mx-auto">
@@ -51,7 +59,7 @@ const Dashboard = () => {
             </p>
           </div>
 
-          <button className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-xl font-semibold transition">
+          <button onClick={handleStartQuiz} className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-xl font-semibold transition">
             Start Quiz
           </button>
         </div>
@@ -105,18 +113,14 @@ const Dashboard = () => {
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
             <div className="flex flex-col items-center">
               <div className="w-24 h-24 rounded-full">
-                {user?.hasImage ? (
-                  <img
-                    src={user?.imageUrl}
-                    alt="profile"
-                    className="w-24 h-24 rounded-full border-4 border-slate-700"
-                  />
-                ) : (
-                  <p>No Profile Img</p>
-                )}
+                <img
+                  src={user?.imageUrl}
+                  alt="profile"
+                  className="w-24 h-24 rounded-full border-4 border-slate-700"
+                />
               </div>
               <h3 className="text-xl font-semibold mt-4">
-                {user?.fullName || user?.firstName}
+                {user?.fullName || user?.primaryEmailAddress?.emailAddress}
               </h3>
               <p className="text-slate-400"></p>
               <Link href="/profile">
@@ -143,6 +147,10 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <StartQuizModal
+              isOpen={isStartQuizModalOpen}
+              onClose={() => setIsStartQuizModalOpen(false)}
+            />
     </section>
   );
 };

@@ -1,14 +1,11 @@
 "use client";
 
+import { ModalProps } from "@/src/types";
 import { SignIn, SignUp } from "@clerk/nextjs";
 import { useState } from "react";
 
-type AuthModalProps = {
-    isOpen: boolean;
-    onClose: () => void;
-};
 
-const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
+const AuthModal = ({ isOpen, onClose }: ModalProps) => {
     const [mode, setMode] = useState("signin");
 
     if (!isOpen) return null;
@@ -20,7 +17,7 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
                     onClick={onClose}
                     className="absolute right-4 top-4 text-slate-400"
                 >
-                    ✕
+                    X
                 </button>
 
                 <div className="flex mb-6 bg-slate-800 rounded-xl p-1">
